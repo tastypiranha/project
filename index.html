@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Agent Document Processing System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="system-header">
+            <h1>Multi-Agent Document Processing System</h1>
+            <div class="system-status">
+                <div class="status status--success">
+                    <span class="status-dot"></span>
+                    All Agents Active
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Grid Layout -->
+        <div class="main-grid">
+            <!-- File Upload Section -->
+            <section class="upload-section card">
+                <div class="card__header">
+                    <h2>Document Upload</h2>
+                    <p>Upload .pdf, .txt, .eml, or .json files for processing</p>
+                </div>
+                <div class="card__body">
+                    <div class="upload-zone" id="uploadZone">
+                        <div class="upload-content">
+                            <div class="upload-icon">📄</div>
+                            <h3>Drag and drop files here</h3>
+                            <p>or <button class="btn btn--outline" id="fileSelectBtn">browse files</button></p>
+                            <input type="file" id="fileInput" accept=".pdf,.txt,.eml,.json" multiple hidden>
+                        </div>
+                    </div>
+                    <div class="sample-files">
+                        <h4>Try Sample Documents:</h4>
+                        <div class="sample-buttons">
+                            <button class="btn btn--sm btn--secondary" data-sample="email-complaint">Email Complaint</button>
+                            <button class="btn btn--sm btn--secondary" data-sample="json-suspicious">Suspicious JSON</button>
+                            <button class="btn btn--sm btn--secondary" data-sample="pdf-invoice">PDF Invoice</button>
+                            <button class="btn btn--sm btn--secondary" data-sample="text-regulation">Regulation Text</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Classifier Agent Dashboard -->
+            <section class="classifier-section card">
+                <div class="card__header">
+                    <h2>🤖 Classifier Agent</h2>
+                    <div class="agent-status" id="classifierStatus">Idle</div>
+                </div>
+                <div class="card__body">
+                    <div class="classification-results" id="classificationResults">
+                        <div class="classification-placeholder">
+                            Upload a document to see classification results
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Processing Pipeline -->
+            <section class="pipeline-section card">
+                <div class="card__header">
+                    <h2>🔄 Processing Pipeline</h2>
+                    <div class="pipeline-controls">
+                        <div class="processing-indicator" id="processingIndicator">Ready</div>
+                    </div>
+                </div>
+                <div class="card__body">
+                    <div class="pipeline-flow" id="pipelineFlow">
+                        <div class="pipeline-step" data-step="upload">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>File Upload</h4>
+                                <p>Document received</p>
+                            </div>
+                            <div class="step-status">⏳</div>
+                        </div>
+                        <div class="pipeline-step" data-step="classify">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Classification</h4>
+                                <p>Format & intent detection</p>
+                            </div>
+                            <div class="step-status">⏳</div>
+                        </div>
+                        <div class="pipeline-step" data-step="route">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Agent Routing</h4>
+                                <p>Specialized processing</p>
+                            </div>
+                            <div class="step-status">⏳</div>
+                        </div>
+                        <div class="pipeline-step" data-step="process">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Agent Processing</h4>
+                                <p>Content analysis</p>
+                            </div>
+                            <div class="step-status">⏳</div>
+                        </div>
+                        <div class="pipeline-step" data-step="action">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h4>Action Execution</h4>
+                                <p>Dynamic responses</p>
+                            </div>
+                            <div class="step-status">⏳</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Specialized Agents Section -->
+            <section class="agents-section card">
+                <div class="card__header">
+                    <h2>🔧 Specialized Agents</h2>
+                </div>
+                <div class="card__body">
+                    <div class="agents-grid" id="agentsGrid">
+                        <div class="agent-card" data-agent="email">
+                            <div class="agent-header">
+                                <h4>📧 Email Agent</h4>
+                                <div class="agent-status">Standby</div>
+                            </div>
+                            <div class="agent-capabilities">
+                                <p>Extracts: sender, recipient, subject, urgency, tone</p>
+                            </div>
+                            <div class="agent-results" id="emailResults"></div>
+                        </div>
+                        <div class="agent-card" data-agent="json">
+                            <div class="agent-header">
+                                <h4>📊 JSON Agent</h4>
+                                <div class="agent-status">Standby</div>
+                            </div>
+                            <div class="agent-capabilities">
+                                <p>Validates: schema, anomalies, risk assessment</p>
+                            </div>
+                            <div class="agent-results" id="jsonResults"></div>
+                        </div>
+                        <div class="agent-card" data-agent="pdf">
+                            <div class="agent-header">
+                                <h4>📄 PDF Agent</h4>
+                                <div class="agent-status">Standby</div>
+                            </div>
+                            <div class="agent-capabilities">
+                                <p>Extracts: text, compliance keywords, invoice data</p>
+                            </div>
+                            <div class="agent-results" id="pdfResults"></div>
+                        </div>
+                        <div class="agent-card" data-agent="text">
+                            <div class="agent-header">
+                                <h4>📝 Text Agent</h4>
+                                <div class="agent-status">Standby</div>
+                            </div>
+                            <div class="agent-capabilities">
+                                <p>Analyzes: content, intent, keywords</p>
+                            </div>
+                            <div class="agent-results" id="textResults"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Memory Store -->
+            <section class="memory-section card">
+                <div class="card__header">
+                    <h2>🧠 Shared Memory Store</h2>
+                    <div class="memory-controls">
+                        <button class="btn btn--sm btn--outline" id="clearMemory">Clear Memory</button>
+                    </div>
+                </div>
+                <div class="card__body">
+                    <div class="memory-stats">
+                        <div class="stat">
+                            <span class="stat-label">Documents Processed:</span>
+                            <span class="stat-value" id="documentsProcessed">0</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Actions Triggered:</span>
+                            <span class="stat-value" id="actionsTriggered">0</span>
+                        </div>
+                    </div>
+                    <div class="memory-content" id="memoryContent">
+                        <div class="memory-placeholder">
+                            Processing history will appear here
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Action Router -->
+            <section class="actions-section card">
+                <div class="card__header">
+                    <h2>⚡ Action Router</h2>
+                </div>
+                <div class="card__body">
+                    <div class="actions-content" id="actionsContent">
+                        <div class="actions-placeholder">
+                            Dynamic actions will be triggered based on processing results
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
